@@ -27,22 +27,26 @@ public class WASenderAccSvc extends AccessibilityService {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (actname.equals("com.whatsapp.Conversation")) {
-                List<AccessibilityNodeInfo> nodes = getRootInActiveWindow().findAccessibilityNodeInfosByViewId("com.whatsapp:id/send");
-                if (nodes.size()>0) {
-                    nodes.get(0).performAction(ACTION_CLICK);
-                }
-                performGlobalAction(GLOBAL_ACTION_BACK);
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } else if (actname.equals("com.whatsapp.HomeActivity")) {
-                sendNext();
-            } else if (actname.equals("com.whatsapp.ContactPicker")) {
-                Toast.makeText(this,"Unable to find contacts in your list! Skipping!!!", Toast.LENGTH_SHORT).show();
-                performGlobalAction(GLOBAL_ACTION_BACK);
+            switch (actname) {
+                case "com.whatsapp.Conversation":
+                    List<AccessibilityNodeInfo> nodes = getRootInActiveWindow().findAccessibilityNodeInfosByViewId("com.whatsapp:id/send");
+                    if (nodes.size() > 0) {
+                        nodes.get(0).performAction(ACTION_CLICK);
+                    }
+                    performGlobalAction(GLOBAL_ACTION_BACK);
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "com.whatsapp.HomeActivity":
+                    sendNext();
+                    break;
+                case "com.whatsapp.ContactPicker":
+                    Toast.makeText(this, "Unable to find contacts in your list! Skipping!!!", Toast.LENGTH_SHORT).show();
+                    performGlobalAction(GLOBAL_ACTION_BACK);
+                    break;
             }
         }
     }
